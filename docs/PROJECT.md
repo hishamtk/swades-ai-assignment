@@ -20,7 +20,8 @@ SwadesAI is a **conversational voice agent** for a fictional clinic, **Swades He
 12. [Frontend application](#frontend-application)
 13. [Database schema](#database-schema)
 14. [Troubleshooting](#troubleshooting)
-15. [Demo checklist](#demo-checklist)
+15. [Demo videos](#demo-videos)
+16. [Demo checklist](#demo-checklist)
 
 ---
 
@@ -495,15 +496,26 @@ The summary and appointments routes shell out to `backend/scripts/*.py`, which r
 
 ---
 
+## Demo videos
+
+Recorded walkthroughs of the main flows:
+
+| Demo | Description | Link |
+|------|-------------|------|
+| **Normal call booking** | End-to-end appointment booking with Agent A | [loom.com/share/d5630100730545c58ce3cc7fbd4b3d72](https://www.loom.com/share/d5630100730545c58ce3cc7fbd4b3d72) |
+| **Join as watcher** | Live monitor dashboard — transcript, state, collected data | [loom.com/share/e40af8d4bf4344ec8f554cebb91c1c88](https://www.loom.com/share/e40af8d4bf4344ec8f554cebb91c1c88) |
+| **Warm transfer** | Supervisor accepts and declines connecting the caller | [loom.com/share/7ce3c87d39774840abf1317abff3624c](https://www.loom.com/share/7ce3c87d39774840abf1317abff3624c) |
+
+---
+
 ## Demo checklist
 
-Use this when recording a Loom demo:
+Use this when recording additional demos:
 
-- [ ] Book an appointment (web or phone)
-- [ ] Monitor UI updates live (transcript, state, collected data)
+- [x] Book an appointment (web or phone) — [demo video](https://www.loom.com/share/d5630100730545c58ce3cc7fbd4b3d72)
+- [x] Monitor UI updates live (transcript, state, collected data) — [demo video](https://www.loom.com/share/e40af8d4bf4344ec8f554cebb91c1c88)
 - [ ] Watcher takeover mid-call
-- [ ] Warm transfer — supervisor **accepts**
-- [ ] Warm transfer — supervisor **declines** / unavailable
+- [x] Warm transfer — supervisor **accepts** and **declines** — [demo video](https://www.loom.com/share/7ce3c87d39774840abf1317abff3624c)
 - [ ] Post-call summary visible after hangup
 - [ ] Appointments visible on `/appointments`
 

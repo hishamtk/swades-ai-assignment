@@ -85,10 +85,18 @@ frontend/
 
 Details: [docs/PROJECT.md#sip--twilio-setup](docs/PROJECT.md#sip--twilio-setup)
 
+## Demo videos
+
+| Demo | Loom |
+|------|------|
+| Normal call — appointment booking | [Watch on Loom](https://www.loom.com/share/d5630100730545c58ce3cc7fbd4b3d72) |
+| Joining as a watcher (live monitor) | [Watch on Loom](https://www.loom.com/share/e40af8d4bf4344ec8f554cebb91c1c88) |
+| Warm transfer — accept & decline | [Watch on Loom](https://www.loom.com/share/7ce3c87d39774840abf1317abff3624c) |
+
 ## Demo checklist
 
-- [ ] Book appointment conversation
-- [ ] Monitor UI updating in real time
+- [x] Book appointment conversation — [Loom](https://www.loom.com/share/d5630100730545c58ce3cc7fbd4b3d72)
+- [x] Monitor UI updating in real time — [Loom](https://www.loom.com/share/e40af8d4bf4344ec8f554cebb91c1c88)
 - [ ] Watcher takeover
-- [ ] Warm transfer — accept + decline paths
+- [x] Warm transfer — accept + decline paths — [Loom](https://www.loom.com/share/7ce3c87d39774840abf1317abff3624c)
 - [ ] Post-call summary after hangup
