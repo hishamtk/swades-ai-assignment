@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+backend/.venv/
+backend/__pycache__/
+backend/**/__pycache__/
+
+# Environment
+.env
+.env.local
+.env*.local
+
+# Database
+backend/data/
+*.db
+
+# Build
+frontend/.next/
+frontend/out/
+dist/
+
+# Python
+*.egg-info/
+.eggs/
+*.pyc
+.Python
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Logs
+*.log

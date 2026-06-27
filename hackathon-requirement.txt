@@ -1,0 +1,54 @@
+Build a Conversational Voice Agent with Live Monitoring & Warm Transfer
+Using LiveKit, LLM, and Twilio
+Objective
+Build a voice agent application with the following flow:
+Connect a caller to a voice agent (Agent A) via a LiveKit room.
+Agent A holds a natural conversation and can book an appointment — collect name, reason, preferred date/time, and contact number, then confirm via a tool/function call.
+A live monitoring UI shows the ongoing conversation in real time and lets a watcher take over the call.
+When the caller needs a human (billing, a complaint, “talk to a person”), Agent A starts a warm transfer to a real agent via Twilio.
+A post-call summary is generated when the call ends.
+Build an interactive UI in Next.js to connect to the agent and monitor calls.
+What is LiveKit?
+LiveKit is an open-source, WebRTC-based platform for real-time audio, video, and data applications. It handles room and participant management, secure streaming, and telephony/SIP for PSTN and VoIP, and integrates well with LLMs for transcription and context generation. (Ref: livekit.io, docs.livekit.io)
+Recommended Providers (free tiers)
+LLM: OpenAI, Groq, or OpenRouter — for conversation, intent detection, and summaries.
+STT / TTS: Deepgram, ElevenLabs, or any other.
+(Or any other provider you prefer.)
+Appointment Booking
+Agent A collects the details needed to book — name, reason for visit, preferred date/time, and contact number.
+It checks availability through a tool/function call before confirming.
+On confirmation, it books the slot (via a tool/function call) and reads the booking back to the caller.
+For the actual booking, you can integrate a real scheduler (e.g. Cal.com) or simply store the appointment in a database — either is fine.
+Live Monitoring UI
+A Next.js dashboard where a watcher can:
+Start a call with the agent.
+See the live transcript as the conversation happens.
+See the agent’s current state in real time — listening / thinking / speaking, the detected intent, and the action it’s taking (“checking availability…”, “booking…”, “transferring…”).
+See call status (connected → transferring → ended).
+Take over the ongoing conversation from the UI — when the watcher takes over, the agent pauses and the conversation continues directly between the watcher and the caller.
+View the post-call summary when the call ends.
+Warm Transfer (Twilio)
+Agent A dials a human agent on a real phone number (or SIP device) via Twilio (free trial credits).
+Agent A speaks a short summary of the call and asks the human whether they want to take it.
+If yes → Agent A connects the caller to the human and exits, leaving them connected.
+If no → Agent A returns to the caller and tells them the team isn’t available right now.
+Technical Requirements
+GitHub repository.
+Backend in Python using the LiveKit Agents / Server SDK to manage rooms, the conversation, tool/function calls, monitoring events, and the transfer.
+Frontend in Next.js for the call UI, the live monitoring dashboard, and the take-over control.
+LLM integration for the conversation, intent, and call summary.
+Twilio integration for the warm transfer to a real phone number.
+README
+Setup instructions for LiveKit, LLM, and Twilio keys.
+How to run the backend and frontend.
+Explanation of the conversation, booking, monitoring/take-over, and warm-transfer flows.
+Demo Recording (Loom or any other)
+A booking conversation with Agent A.
+The live monitoring UI updating in real time.
+A watcher taking over an ongoing conversation from the UI.
+A warm transfer: the summary spoken to the human, and both the accept (connect) and decline (team unavailable) outcomes.
+The post-call summary.
+Notes to Candidates
+You’re encouraged to use AI coding assistants.
+Emphasis is on a complete, working end-to-end flow (booking + live monitoring + take-over + warm transfer), a clean live view, and clear, well-documented code.
+Additional functionality is welcome — e.g. handling interruptions, more tools (reschedule / cancel / look-up), showing collected data live, or multilingual support.
