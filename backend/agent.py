@@ -33,11 +33,7 @@ from livekit.agents.llm import ToolError, function_tool
 from livekit.agents.voice import ModelSettings
 from livekit.plugins import groq
 
-from booking import (
-    init_db,
-    is_clinic_open,
-    parse_preferred_date,
-)
+from booking import init_db
 from monitor import MonitorPublisher
 from speech_filters import parse_all_leaked_tool_calls, sanitize_stream_chunk
 from summary import generate_and_save_summary, generate_transfer_brief
@@ -61,6 +57,8 @@ load_project_env()
 
 logger = logging.getLogger("swades-agent")
 
+# --- Configuration (from environment) ---
+
 AGENT_NAME = os.getenv("AGENT_NAME", "swades-agent")
 # 8b uses far fewer tokens than 70b — important on Groq free tier (100k TPD)
 GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
@@ -70,11 +68,13 @@ SIP_NUMBER = os.getenv("LIVEKIT_SIP_NUMBER")
 AGENT_LANGUAGE = normalize_language(os.getenv("AGENT_LANGUAGE"))
 
 
+# --- Agent ---
+
+
 class ReceptionistAgent(Agent):
     def __init__(self, monitor: MonitorPublisher) -> None:
         super().__init__(instructions=build_instructions(AGENT_LANGUAGE))
         self._monitor = monitor
-        self._leaked_tool_task: asyncio.Task | None = None
         self._transfer_in_progress = False
         self._transfer_queued = False
         monitor.set_transfer_handler(self.queue_transfer)
@@ -110,7 +110,6 @@ class ReceptionistAgent(Agent):
             return
 
         if name == "book_appointment":
-            slot = args.get("slot_datetime", "")
             await self._monitor._apply_tool_collected_data(name, args)
             return
 
@@ -356,6 +355,9 @@ class ReceptionistAgent(Agent):
         return await self._execute_transfer(reason)
 
 
+# --- LiveKit server ---
+
+
 server = AgentServer()
 
 
@@ -375,8 +377,6 @@ def _register_takeover_handler(
 
         if msg.get("type") != "takeover":
             return
-
-        import asyncio
 
         action = msg.get("action")
 
@@ -471,8 +471,6 @@ async def entrypoint(ctx: JobContext) -> None:
     def _on_participant_disconnected(participant: rtc.RemoteParticipant) -> None:
         if not _should_end_on_disconnect(participant):
             return
-        import asyncio
-
         asyncio.create_task(_shutdown_after_caller_left())
 
     # Connect before session.start so monitor events and on_enter can publish safely

@@ -15,18 +15,19 @@ TOOL_NAMES = (
 )
 _TOOL_NAME_PATTERN = "|".join(re.escape(name) for name in TOOL_NAMES)
 
-# Spoken patterns like: transfer_to_human>{"reason":"billing"}</function>
+# --- Leaked tool patterns (LLM text instead of proper function calls) ---
+
 _LEAKED_TOOL = re.compile(
     rf"(?P<name>{_TOOL_NAME_PATTERN})"
     r"\s*[>(]?\s*(?P<args>\{.*?\})?\s*(?:</function>)?\)?",
     re.IGNORECASE | re.DOTALL,
 )
-# tool_name followed by a JSON object without > or (
+
 _TOOL_THEN_JSON = re.compile(
     rf"(?P<name>{_TOOL_NAME_PATTERN})\s+(?P<args>\{{.*?\}})",
     re.IGNORECASE | re.DOTALL,
 )
-# Bare JSON the LLM speaks instead of invoking a tool, e.g. {"reason":"human agent"}
+
 _BARE_TOOL_JSON = re.compile(
     r'\{\s*"(?:reason|name|phone|slot_datetime|preferred_date|preferred_time)"\s*:\s*"[^"]*"(?:\s*,\s*"(?:reason|name|phone|slot_datetime|preferred_date|preferred_time)"\s*:\s*"[^"]*")*\s*\}',
     re.IGNORECASE,
@@ -35,12 +36,12 @@ _BARE_REASON_JSON = re.compile(
     r'\{\s*"reason"\s*:\s*"(?P<reason>[^"]+)"\s*\}',
     re.IGNORECASE,
 )
-# Parentheticals that mention tools, e.g. (check_availability would be silent)
+
 _TOOL_PAREN = re.compile(
     rf"\([^)]*?(?:{_TOOL_NAME_PATTERN})[^)]*?\)",
     re.IGNORECASE,
 )
-# Bare tool name mentions in running text
+
 _BARE_TOOL_MENTION = re.compile(
     rf"\b(?:{_TOOL_NAME_PATTERN})\b(?:\s+would\s+be\s+silent)?",
     re.IGNORECASE,

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
 import re
@@ -20,6 +21,7 @@ from booking import (
     parse_preferred_date,
 )
 from intake_tracker import (
+    _extract_date_time,
     detect_pending_field,
     extract_phone_chunk,
     infer_fields_from_user_reply,
@@ -27,7 +29,6 @@ from intake_tracker import (
     is_user_confirmation,
     is_user_needs_more_help,
     looks_like_phone_chunk,
-    _extract_date_time,
 )
 from speech_filters import parse_all_leaked_tool_calls, sanitize_for_speech
 
@@ -488,7 +489,6 @@ class MonitorPublisher:
             item = event.item
             raw = getattr(item, "text_content", None) or ""
             role = getattr(item, "role", "unknown")
-            import asyncio
 
             asyncio.create_task(self._apply_leaked_tools(raw))
 
@@ -544,14 +544,10 @@ class MonitorPublisher:
 
         @self._session.on("agent_state_changed")
         def _on_agent_state(_event) -> None:
-            import asyncio
-
             asyncio.create_task(self.publish_state())
 
         @self._session.on("function_tools_executed")
         def _on_tools(event) -> None:
-            import asyncio
-
             async def handle() -> None:
                 for call in event.function_calls:
                     name = call.name
